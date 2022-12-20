@@ -2,9 +2,9 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-import {Home} from './Home';
-import {Finances} from './Finances';
-import {Navigation} from './Navigation';
+import {Home} from './pages/Home/Home';
+import {Finances} from './pages/Finances/Finances';
+import {Navigation} from './pages/Navigation';
 
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 
