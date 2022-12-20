@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Backend.Data;
 using Backend.Models;
+using Backend.Data;
 
 namespace Backend.Controllers
 {
@@ -30,18 +30,18 @@ namespace Backend.Controllers
         public async Task<IActionResult> Create([FromBody] Transaction transaction)
         {
             var dateTime = transaction.TransactionTime;
-            if ((dateTime == default(DateTime)) || (dateTime == DateTime.MinValue)) transaction.TransactionTime = DateTime.UtcNow; // dateTime.HasValue
+            if (dateTime == default || dateTime == DateTime.MinValue) transaction.TransactionTime = DateTime.UtcNow; // dateTime.HasValue
             await _context.Transactions.AddAsync(transaction);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById), new {id = transaction.Id}, transaction);
+            return CreatedAtAction(nameof(GetById), new { id = transaction.Id }, transaction);
         }
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(int id, [FromBody] Transaction transaction)
         {
-            if(transaction.Id != id) return BadRequest();
+            if (transaction.Id != id) return BadRequest();
 
             _context.Entry(transaction).State = EntityState.Modified;
             await _context.SaveChangesAsync();

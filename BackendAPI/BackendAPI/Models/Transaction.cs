@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+
 namespace Backend.Models
 {
     public class Transaction
@@ -6,7 +7,7 @@ namespace Backend.Models
         public int Id { get; set; }
         [Required]
         public string Summary { get; set; }
-        public string ? Description { get; set; }
+        public string? Description { get; set; }
         [Required]
         public double Amount { get; set; }
         [Required]
