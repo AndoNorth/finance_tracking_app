@@ -17,9 +17,19 @@ public class Startup
         services.AddDbContext<TransactionDbContext>
             (obj => obj.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
 
+        // Add CORS
+        services.AddCors(options =>
+        {
+            options.AddPolicy("fe", pb => pb.WithOrigins(Configuration.GetValue<string>("frontendUrl")).AllowCredentials().AllowAnyMethod().AllowAnyHeader());
+        });
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+
+        // use auth
+        services.AddAuthentication("def").AddCookie("def");
+        services.AddAuthorization();
 
         // direct to production ready spa static files
         services.AddSpaStaticFiles(configuration =>
@@ -38,8 +48,11 @@ public class Startup
 
         app.UseHttpsRedirection();
 
+        app.UseCors("fe");
+
         app.UseRouting();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
