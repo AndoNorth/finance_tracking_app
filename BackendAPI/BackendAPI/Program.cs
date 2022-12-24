@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 // build and run application
 var builder = WebApplication.CreateBuilder(args);
 var startup = new Startup(builder.Configuration);
