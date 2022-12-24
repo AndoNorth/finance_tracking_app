@@ -1,5 +1,5 @@
 # build frontend and backend applications and setup production package
-cd Frontend; npm run build
+cd Frontend; npm install; npm run build
 cd ..
 cd BackendAPI; dotnet publish -c Release
 cd ..
