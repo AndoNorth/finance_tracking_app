@@ -15,7 +15,8 @@ namespace Backend.Controllers
         [HttpGet]
         public async Task<IEnumerable<Transaction>> Get()
         {
-            return await _context.Transactions.ToListAsync();
+            // _context.AsQueryable().Where(u => <condition>).Take(10).ToList()
+            return await _context.Transactions.Take(10).ToListAsync(); // .Take(N) to reduce the output
         }
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Transaction), StatusCodes.Status200OK)]
@@ -23,6 +24,16 @@ namespace Backend.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var transaction = await _context.Transactions.FindAsync(id);
+            return transaction == null ? NotFound() : Ok(transaction);
+        }
+        [HttpGet("{startDate}/{endDate}")]
+        [ProducesResponseType(typeof(Transaction), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetById(string startDate, string endDate)
+        {
+            var transaction = await _context.Transactions.AsQueryable().Where(transactions =>
+                transactions.TransactionTime.Date >= DateTime.Parse(startDate) &&
+                transactions.TransactionTime.Date <= DateTime.Parse(endDate)).ToListAsync();
             return transaction == null ? NotFound() : Ok(transaction);
         }
         [HttpPost]

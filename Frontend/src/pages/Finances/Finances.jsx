@@ -48,6 +48,7 @@ export class Finances extends Component{
         let editModalClose=()=>this.setState({editModalShow:false});
         return(
             <div>
+            <h3>This only queries the last 10 Transactions</h3>
             <Table className="mt-4" striped bordered hover size="sm">
                 <thead>
                     <tr>
@@ -66,8 +67,8 @@ export class Finances extends Component{
                                 <td>{trans.summary}</td>
                                 <td>{trans.description}</td>
                                 <td>{trans.amount}</td>
-                                <td>{trans.transactionType}</td>
-                                <td>{trans.transactionTime}</td>
+                                <td>{trans.transactionType ? "Outgoing" : "Ingoing"}</td>
+                                <td>{new Date(trans.transactionTime).toLocaleString()}</td>
                                 <td>
                                     <ButtonToolbar>
                                         <Button className="mr-2" variant="info"
