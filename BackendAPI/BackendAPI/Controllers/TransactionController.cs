@@ -15,8 +15,9 @@ namespace Backend.Controllers
         [HttpGet]
         public async Task<IEnumerable<Transaction>> Get()
         {
+            var MAX_TRANSACTIONS = 4096;
             // _context.AsQueryable().Where(u => <condition>).Take(10).ToList()
-            return await _context.Transactions.Take(10).ToListAsync(); // .Take(N) to reduce the output
+            return await _context.Transactions.Take(MAX_TRANSACTIONS).ToListAsync(); // .Take(N) to reduce the output
         }
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Transaction), StatusCodes.Status200OK)]
@@ -68,6 +69,16 @@ namespace Backend.Controllers
             if (transactionToDelete == null) return NotFound();
 
             _context.Transactions.Remove(transactionToDelete);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteAll()
+        {
+            _context.Transactions.RemoveRange(_context.Transactions);
             await _context.SaveChangesAsync();
 
             return NoContent();

@@ -48,7 +48,6 @@ export class Finances extends Component{
         let editModalClose=()=>this.setState({editModalShow:false});
         return(
             <div>
-            <h3>This only queries the last 10 Transactions</h3>
             <Table className="mt-4" striped bordered hover size="sm">
                 <thead>
                     <tr>
