@@ -1,7 +1,7 @@
 # finance_tracking_app
 ## Summary
 ### Brief:
-- A tool for managing personal finances, tracking income and expenses and generating reports
+- A tool for managing personal finances, by tracking income abd expenses, and generating reports
 ### Tech Stack:
 **Backend**:
 - C# ASPNET 6
@@ -10,6 +10,15 @@
 **Frontend**:
 - React (.jsx with Vite)
 - Bootstrap for styling
+
+### Build Instructions:
+**Developement**
+- "npm run dev" on terminal inside Frontend directory (relies on vite)
+- run Backend in Visual Studios or build and run "dotnet Backend.dll" on terminal
+**Production**
+- run "bash makerelease.sh"
+- goto production directory and run "dotnet Backend.dll" on terminal
+- use "bash cleanup.sh" to cleanup release files before running makerelease.sh again
 ## Dashboards
 ### Finances:
 
