@@ -12,9 +12,10 @@
 - Bootstrap for styling
 
 ### Build Instructions:
-**Developement**
+**Development**
 - "npm run dev" on terminal inside Frontend directory (relies on vite)
 - run Backend in Visual Studios or build and run "dotnet Backend.dll" on terminal
+
 **Production**
 - run "bash makerelease.sh"
 - goto production directory and run "dotnet Backend.dll" on terminal
