@@ -45,7 +45,7 @@ const datasetTemplate = {
     ],
     borderWidth: 1
 }
-export class BarChart extends Component{
+export class LineChart extends Component{
 
     constructor(props){
         super(props);
@@ -131,7 +131,7 @@ export class BarChart extends Component{
         event.preventDefault();
         const params = new URLSearchParams({
             "startDate" : String(event.target.startDate.value),
-            "endDate" : String(event.target.startDate.value),
+            "endDate" : String(event.target.endDate.value),
         })
         fetch(import.meta.env.VITE_REACT_APP_API+`Transaction?${params}`)
         .then(response=>response.json())

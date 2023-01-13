@@ -13,11 +13,36 @@ namespace Backend.Controllers
         private readonly TransactionDbContext _context;
         public TransactionController(TransactionDbContext context) => _context = context;
         [HttpGet]
-        public async Task<IEnumerable<Transaction>> Get()
+        [ProducesResponseType(typeof(Transaction), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Get([FromQuery]String? startDate, [FromQuery]String? endDate)
         {
             var MAX_TRANSACTIONS = 4096;
+            var transactions = _context.Transactions.AsQueryable();
+            // TODO: add validation for startDate and endDate query params
+            if(startDate != null && endDate != null)
+            {
+                transactions = transactions.Where(transactions =>
+                transactions.TransactionTime.Date >= DateTime.Parse(startDate) &&
+                transactions.TransactionTime.Date <= DateTime.Parse(endDate)).Take(MAX_TRANSACTIONS);
+            }
+            else if(startDate != null)
+            {
+                transactions = transactions.Where(transactions =>
+                transactions.TransactionTime.Date >= DateTime.Parse(startDate)).Take(MAX_TRANSACTIONS);
+            }
+            else if(endDate != null)
+            {
+                transactions = transactions.Where(transactions =>
+                transactions.TransactionTime.Date <= DateTime.Parse(endDate)).Take(MAX_TRANSACTIONS);
+            }
+            else
+            {
+                transactions = transactions.Take(10);
+            }
             // _context.AsQueryable().Where(u => <condition>).Take(10).ToList()
-            return await _context.Transactions.Take(MAX_TRANSACTIONS).ToListAsync(); // .Take(N) to reduce the output
+            var transactionsResponse = await transactions.ToListAsync();
+            return transactions.Count() == 0 || transactionsResponse == null ? NotFound() : Ok(transactionsResponse);
         }
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Transaction), StatusCodes.Status200OK)]
@@ -25,16 +50,6 @@ namespace Backend.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var transaction = await _context.Transactions.FindAsync(id);
-            return transaction == null ? NotFound() : Ok(transaction);
-        }
-        [HttpGet("{startDate}/{endDate}")]
-        [ProducesResponseType(typeof(Transaction), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetById(string startDate, string endDate)
-        {
-            var transaction = await _context.Transactions.AsQueryable().Where(transactions =>
-                transactions.TransactionTime.Date >= DateTime.Parse(startDate) &&
-                transactions.TransactionTime.Date <= DateTime.Parse(endDate)).ToListAsync();
             return transaction == null ? NotFound() : Ok(transaction);
         }
         [HttpPost]

@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import {Home} from './pages/Home/Home';
 import {Finances} from './pages/Finances/Finances';
-import {BarChart} from './pages/Finances/BarChart'
+import {LineChart} from './pages/Finances/LineChart'
 import {Navigation} from './pages/Navigation';
 
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
@@ -20,7 +20,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} exact/>
         <Route path='/Finances' element={<Finances />} exact/>
-        <Route path='/BarChart' element={<BarChart />} exact/>
+        <Route path='/LineChart' element={<LineChart />} exact/>
       </Routes>
     </div>
     </BrowserRouter>

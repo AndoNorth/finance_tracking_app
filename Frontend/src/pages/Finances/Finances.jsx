@@ -20,9 +20,9 @@ export class Finances extends Component{
         });
     }
 
-    componentDidMount(){
-        this.refreshList();
-    }
+    // componentDidMount(){
+    //     this.refreshList();
+    // }
 
     // componentDidUpdate(){
     //     this.refreshList();
@@ -48,7 +48,19 @@ export class Finances extends Component{
         let editModalClose=()=>this.setState({editModalShow:false});
         return(
             <div>
-            <Table className="mt-4" striped bordered hover size="sm">
+            <ButtonToolbar className="mt-2">
+                <Button variant='primary'
+                onClick={()=>this.setState({addModalShow:true})}>
+                Add Transaction
+                </Button>
+                <Button variant='success'
+                onClick={()=>this.refreshList()}>
+                Refresh List
+                </Button>
+                <AddTransactionModal show={this.state.addModalShow}
+                onHide={addModalClose}/>
+            </ButtonToolbar>
+            <Table className="mt-2" striped bordered hover size="sm">
                 <thead>
                     <tr>
                         <th>Summary</th>
@@ -99,18 +111,6 @@ export class Finances extends Component{
                     }
                 </tbody>
             </Table>
-            <ButtonToolbar>
-                <Button variant='primary'
-                onClick={()=>this.setState({addModalShow:true})}>
-                Add Transaction
-                </Button>
-                <Button variant='success'
-                onClick={()=>this.refreshList()}>
-                Refresh List
-                </Button>
-                <AddTransactionModal show={this.state.addModalShow}
-                onHide={addModalClose}/>
-            </ButtonToolbar>
             </div>
             
         );
