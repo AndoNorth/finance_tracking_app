@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Backend.Data;
+using System.Runtime.InteropServices;
 public class Startup
 {
     public Startup(IConfiguration configuration)
@@ -14,8 +15,16 @@ public class Startup
         services.AddControllers();
 
         // Add SQL server
-        services.AddDbContext<TransactionDbContext>
-            (obj => obj.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            services.AddDbContext<TransactionDbContext>
+                (obj => obj.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
+        }
+        else if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            services.AddDbContext<TransactionDbContext>
+                (obj => obj.UseMySQL(Configuration.GetConnectionString("mySqlServer")));
+        }
 
         // Add CORS
         services.AddCors(options =>
