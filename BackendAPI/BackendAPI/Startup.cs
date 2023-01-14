@@ -17,13 +17,16 @@ public class Startup
         // Add SQL server
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
+            Console.WriteLine("Connect to MSSqlServer");
             services.AddDbContext<TransactionDbContext>
                 (obj => obj.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
         }
         else if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
+            Console.WriteLine("Connect to mySqlServer");
+            string connectionString = Configuration.GetConnectionString("mySqlServer");
             services.AddDbContext<TransactionDbContext>
-                (obj => obj.UseMySQL(Configuration.GetConnectionString("mySqlServer")));
+                (obj => obj.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
         }
 
         // Add CORS
