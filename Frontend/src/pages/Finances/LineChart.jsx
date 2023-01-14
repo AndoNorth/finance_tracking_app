@@ -3,8 +3,8 @@ import { Container, Row } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 import { ButtonToolbar, Button } from 'react-bootstrap';
 import { Chart } from 'react-chartjs-2';
-import { Chart as ChartJS , CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler} from 'chart.js';
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler)
+import { Chart as ChartJS, registerables} from 'chart.js/auto';
+ChartJS.register(...registerables) //, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler
 
 const months = {
     1: 'Jan',
