@@ -1,7 +1,7 @@
 # finance_tracking_app
 ## Summary
 ### Brief:
-- A tool for managing personal finances, by tracking income abd expenses, and generating reports
+- A tool for managing personal finances, by tracking income and expenses, and generating reports
 ### Tech Stack:
 **Backend**:
 - C# ASPNET 6
